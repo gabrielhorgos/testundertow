@@ -6,6 +6,7 @@ import io.undertow.server.HttpHandler;
 import io.undertow.server.handlers.PathHandler;
 import io.undertow.servlet.api.DeploymentInfo;
 import io.undertow.servlet.api.DeploymentManager;
+import org.glassfish.jersey.servlet.ServletContainer;
 
 import javax.servlet.ServletException;
 
@@ -27,7 +28,10 @@ public class Main {
 							servlet("MessageServlet", MyServlet.class).addInitParam("message", "Hello World")
 									.addMapping("/*"),
 							servlet("MyServlet", MyServlet.class).addInitParam("message", "MyServlet")
-									.addMapping("/myservlet"));
+									.addMapping("/myservlet"),
+							servlet("jerseyServlet", ServletContainer.class).setLoadOnStartup(1)
+									.addInitParam("javax.ws.rs.Application", JerseyConfig.class.getName())
+									.addMapping("/api/*"));
 
 			DeploymentManager manager = defaultContainer().addDeployment(servletBuilder);
 			manager.deploy();
