@@ -13,7 +13,8 @@
         <org.glassfish.jersey.version>2.25.1</org.glassfish.jersey.version>
         <org.jboss.weld.version>3.0.0.Final</org.jboss.weld.version>
         <el-api.version>3.0.0</el-api.version>
-
+        <io.swagger.version>2.0.0</io.swagger.version>
+        <com.fasterxml.jackson.version>2.9.7</com.fasterxml.jackson.version>
     </properties>
 
     <dependencies>
@@ -63,6 +64,33 @@
             <groupId>javax.el</groupId>
             <artifactId>javax.el-api</artifactId>
             <version>${el-api.version}</version>
+        </dependency>
+        
+        <!-- Swagger -->
+        <dependency>
+            <groupId>io.swagger.core.v3</groupId>
+            <artifactId>swagger-jaxrs2</artifactId>
+            <version>${io.swagger.version}</version>
+        </dependency>
+
+        <!-- Jackson -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>${com.fasterxml.jackson.version}</version>
+        </dependency>
+        
+<!--        Jackson-->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <version>${com.fasterxml.jackson.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${com.fasterxml.jackson.version}</version>
         </dependency>
         
     </dependencies>
