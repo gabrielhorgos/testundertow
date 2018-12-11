@@ -7,6 +7,7 @@ import io.undertow.server.handlers.PathHandler;
 import io.undertow.servlet.api.DeploymentInfo;
 import io.undertow.servlet.api.DeploymentManager;
 import org.glassfish.jersey.servlet.ServletContainer;
+import org.jboss.weld.environment.servlet.Listener;
 
 import javax.servlet.ServletException;
 
@@ -24,8 +25,8 @@ public class Main {
 		try {
 
 			DeploymentInfo servletBuilder = deployment().setClassLoader(Main.class.getClassLoader())
-					.setContextPath("/rest").setDeploymentName("test.war").addServlets(
-							servlet("MessageServlet", MyServlet.class).addInitParam("message", "Hello World")
+					.setContextPath("/rest").setDeploymentName("test.war").addListeners(listener(Listener.class))
+					.addServlets(servlet("MessageServlet", MyServlet.class).addInitParam("message", "Hello World")
 									.addMapping("/*"),
 							servlet("MyServlet", MyServlet.class).addInitParam("message", "MyServlet")
 									.addMapping("/myservlet"),
