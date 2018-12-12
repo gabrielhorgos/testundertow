@@ -40,7 +40,7 @@ public class Main {
 					.setResourceManager(new ClassPathResourceManager(Main.class.getClassLoader()))
 					.addServlets(servlet("jerseyServlet", ServletContainer.class)
 							.setLoadOnStartup(1)
-							.addInitParam("javax.ws.rs.Application", JerseyConfig.class.getName())
+							.addInitParam("javax.ws.rs.Application", ApplicationConfig.class.getName())
 							.addMapping("/api/*"))
 					.setDeploymentName("test.war");
 
