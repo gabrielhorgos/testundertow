@@ -43,7 +43,7 @@ public class Server {
 							.setLoadOnStartup(1)
 							.addInitParam("javax.ws.rs.Application", ApplicationConfig.class.getName())
 							.addMapping("/api/*"))
-					.setDeploymentName("test.war");
+					.setDeploymentName("micro-reference-project.war");
 
 			DeploymentManager manager = defaultContainer().addDeployment(servletBuilder);
 			manager.deploy();
