@@ -1,8 +1,8 @@
-package com;
+package com.server;
 
+import com.config.ApplicationConfig;
 import io.undertow.Handlers;
 import io.undertow.Undertow;
-import io.undertow.server.HttpHandler;
 import io.undertow.server.handlers.PathHandler;
 import io.undertow.server.handlers.resource.ClassPathResourceManager;
 import io.undertow.servlet.api.DeploymentInfo;
@@ -14,7 +14,7 @@ import javax.servlet.ServletException;
 
 import static io.undertow.servlet.Servlets.*;
 
-public class Main {
+public class Server {
 
 	private static Undertow server;
 
@@ -34,10 +34,11 @@ public class Main {
 			server.start();
 
 			DeploymentInfo servletBuilder = deployment()
-					.setClassLoader(Main.class.getClassLoader())
+					.setClassLoader(Server.class.getClassLoader())
 					.setContextPath("/")
 					.addListeners(listener(Listener.class))
-					.setResourceManager(new ClassPathResourceManager(Main.class.getClassLoader()))
+					.setResourceManager(new ClassPathResourceManager(Server.class.getClassLoader()))
+					.addWelcomePage("apidoc/index.html")
 					.addServlets(servlet("jerseyServlet", ServletContainer.class)
 							.setLoadOnStartup(1)
 							.addInitParam("javax.ws.rs.Application", ApplicationConfig.class.getName())

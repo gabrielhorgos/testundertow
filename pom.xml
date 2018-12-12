@@ -116,7 +116,7 @@
                                 implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
                         <transformer
                                 implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                            <mainClass>com.Main</mainClass>
+                            <mainClass>com.server.Server</mainClass>
                         </transformer>
                     </transformers>
                 </configuration>
