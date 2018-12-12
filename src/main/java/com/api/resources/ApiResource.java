@@ -3,6 +3,7 @@ package com.api.resources;
 import com.api.resources.definition.OpenApiInterface;
 import com.model.Message;
 import com.service.ApiService;
+import com.utils.AppExecutors;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -10,7 +11,12 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.container.AsyncResponse;
+import javax.ws.rs.container.Suspended;
 import javax.ws.rs.core.Response;
+import java.util.concurrent.ExecutorService;
+
+import static com.utils.Computation.computeAsync;
 
 @RequestScoped
 @Path("/")
@@ -19,6 +25,8 @@ public class ApiResource implements OpenApiInterface {
 	
 	@Inject
 	private ApiService service;
+	@Inject
+	private AppExecutors appExecutors;
 	
 	@Override
 	@GET
@@ -30,11 +38,11 @@ public class ApiResource implements OpenApiInterface {
 	@Override
 	@GET
 	@Path("customHello")
-	public Response sayCustomHello(@QueryParam("name") String name) {
-		try {
-			return Response.ok().entity(service.buildHelloMessage(name)).build();
-		} catch (Exception e) {
-			return Response.status(400).entity(new Message(e.getMessage())).build();
-		}
+	public void sayCustomHello(@QueryParam("name") String name, @Suspended AsyncResponse asyncResponse) {
+		ExecutorService executorService = appExecutors.getAuthenticationExecutor();
+
+		computeAsync(() -> service.buildHelloMessage(name), executorService)
+				.thenApplyAsync(result -> asyncResponse.resume(Response.ok().entity(result).build()), executorService)
+				.exceptionally(error -> asyncResponse.resume(Response.status(400).entity(new Message(error.getMessage())).build()));
 	}
 }

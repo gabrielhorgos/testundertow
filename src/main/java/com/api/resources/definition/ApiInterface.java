@@ -1,5 +1,6 @@
 package com.api.resources.definition;
 
+import javax.ws.rs.container.AsyncResponse;
 import javax.ws.rs.core.Response;
 
 /**
@@ -9,5 +10,5 @@ public interface ApiInterface {
 
 	Response sayHello();
 
-	Response sayCustomHello(String name);
+	void sayCustomHello(String name, AsyncResponse asyncResponse);
 }

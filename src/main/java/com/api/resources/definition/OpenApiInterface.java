@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 
+import javax.ws.rs.container.AsyncResponse;
 import javax.ws.rs.core.Response;
 
 /**
@@ -31,7 +32,8 @@ public interface OpenApiInterface extends ApiInterface {
 							content = @Content(mediaType = "application/json",
 									schema = @Schema(implementation = Message.class))),
 					@ApiResponse(responseCode = "400", description = "Parameter supplied must not be null."),})
-	Response sayCustomHello(@Parameter(in = ParameterIn.QUERY , description = "The name used for creating the custom hello message.",
+	void sayCustomHello(@Parameter(in = ParameterIn.QUERY , description = "The name used for creating the custom " 
+			+ "hello message.",
 			schema = @Schema(type = "String", example = "John"), required = true) 
-			String name);
+			String name, AsyncResponse asyncResponse);
 }

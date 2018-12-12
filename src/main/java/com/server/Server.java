@@ -42,7 +42,8 @@ public class Server {
 					.addServlets(servlet("jerseyServlet", ServletContainer.class)
 							.setLoadOnStartup(1)
 							.addInitParam("javax.ws.rs.Application", ApplicationConfig.class.getName())
-							.addMapping("/api/*"))
+							.addMapping("/api/*")
+							.setAsyncSupported(true))
 					.setDeploymentName("micro-reference-project.war");
 
 			DeploymentManager manager = defaultContainer().addDeployment(servletBuilder);
