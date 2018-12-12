@@ -3,6 +3,7 @@ package com.api.resources.definition;
 import com.model.Message;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -30,7 +31,7 @@ public interface OpenApiInterface extends ApiInterface {
 							content = @Content(mediaType = "application/json",
 									schema = @Schema(implementation = Message.class))),
 					@ApiResponse(responseCode = "400", description = "Parameter supplied must not be null."),})
-	Response sayCustomHello(@Parameter(description = "The name used for creating the custom hello message.",
+	Response sayCustomHello(@Parameter(in = ParameterIn.QUERY , description = "The name used for creating the custom hello message.",
 			schema = @Schema(type = "String", example = "John"), required = true) 
 			String name);
 }
