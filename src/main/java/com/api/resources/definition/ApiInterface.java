@@ -1,5 +1,7 @@
 package com.api.resources.definition;
 
+import com.model.Message;
+
 import javax.ws.rs.container.AsyncResponse;
 import javax.ws.rs.core.Response;
 
@@ -10,5 +12,7 @@ public interface ApiInterface {
 
 	Response sayHello();
 
-	void sayCustomHello(String name, AsyncResponse asyncResponse);
+	Message sayCustomHello();
+
+	void sayParametrizedHello(String name, AsyncResponse asyncResponse);
 }

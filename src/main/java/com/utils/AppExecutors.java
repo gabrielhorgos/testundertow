@@ -12,15 +12,15 @@ import java.util.concurrent.Executors;
 @ApplicationScoped
 public class AppExecutors {
 
-	private static final int AUTHENTICATION_EXECUTOR_POOL_SIZE = 5;
-	private ExecutorService authenticationExecutor;
+	private static final int APP_EXECUTOR_POOL_SIZE = 5;
+	private ExecutorService executorService;
 
 	@PostConstruct 
 	private void init() {
-		authenticationExecutor = Executors.newFixedThreadPool(AUTHENTICATION_EXECUTOR_POOL_SIZE);
+		executorService = Executors.newFixedThreadPool(APP_EXECUTOR_POOL_SIZE);
 	}
 
-	public ExecutorService getAuthenticationExecutor() {
-		return authenticationExecutor;
+	public ExecutorService getExecutorService() {
+		return executorService;
 	}
 }

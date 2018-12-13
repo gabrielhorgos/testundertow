@@ -23,16 +23,24 @@ public interface OpenApiInterface extends ApiInterface {
 							content = @Content(mediaType = "application/json",
 									schema = @Schema(implementation = Message.class)))})
 	Response sayHello();
+	
+	@Override
+	@Operation(summary = "Returns a custom hello message.", tags = { "Hello Api", },
+			responses = {
+					@ApiResponse(responseCode = "200", description = "Returns a greetings message.",
+							content = @Content(mediaType = "application/json",
+									schema = @Schema(implementation = Message.class)))})
+	Message sayCustomHello();
 
 	@Override
-	@Operation(summary = "Returns a customized greetings message.", tags = { "Using CDI service API", },
+	@Operation(summary = "Returns a parametrized greetings message.", tags = { "Using CDI service API", },
 			responses = {
-					@ApiResponse(responseCode = "200", description = "Creates a customized greetings message by using"
+					@ApiResponse(responseCode = "200", description = "Creates a parametrized greetings message by using"
 							+ " the provided name parameter.",
 							content = @Content(mediaType = "application/json",
 									schema = @Schema(implementation = Message.class))),
 					@ApiResponse(responseCode = "400", description = "Parameter supplied must not be null."),})
-	void sayCustomHello(@Parameter(in = ParameterIn.QUERY , description = "The name used for creating the custom " 
+	void sayParametrizedHello(@Parameter(in = ParameterIn.QUERY , description = "The name used for creating the custom " 
 			+ "hello message.",
 			schema = @Schema(type = "String", example = "John"), required = true) 
 			String name, AsyncResponse asyncResponse);

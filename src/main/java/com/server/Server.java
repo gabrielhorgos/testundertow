@@ -12,51 +12,41 @@ import org.jboss.weld.environment.servlet.Listener;
 
 import javax.servlet.ServletException;
 
+import static com.utils.DeploymentConfiguration.getProperty;
 import static io.undertow.servlet.Servlets.*;
 
 public class Server {
 
-	private static Undertow server;
+	public static void main(String[] args)
+			throws ServletException {
 
-	public static void main(String[] args) {
-		startContainer(8080);
-	}
+		PathHandler path = Handlers.path();
+		
+		Integer port1 = Integer.valueOf(getProperty("port", "8080"));
+		String host = getProperty("host", "localhost");
+		
+		final Undertow server = Undertow.builder()
+				.addHttpListener(port1, host)
+				.setHandler(path)
+				.build();
 
-	private static void startContainer(int port) {
-		try {
-			PathHandler path = Handlers.path();
+		server.start();
 
-			Undertow server = Undertow.builder()
-					.addHttpListener(8080, "localhost")
-					.setHandler(path)
-					.build();
-			
-			server.start();
+		DeploymentInfo servletBuilder = deployment()
+				.setClassLoader(Server.class.getClassLoader())
+				.setContextPath("/")
+				.addListeners(listener(Listener.class))
+				.setResourceManager(new ClassPathResourceManager(Server.class.getClassLoader()))
+				.addServlets(
+						servlet("jerseyServlet", ServletContainer.class).setLoadOnStartup(1)
+								.addInitParam("javax.ws.rs.Application", ApplicationConfig.class.getName())
+								.addMapping("/api/*").setAsyncSupported(true))
+				.setDeploymentName("micro-reference-project.war");
 
-			DeploymentInfo servletBuilder = deployment()
-					.setClassLoader(Server.class.getClassLoader())
-					.setContextPath("/")
-					.addListeners(listener(Listener.class))
-					.setResourceManager(new ClassPathResourceManager(Server.class.getClassLoader()))
-					.addServlets(servlet("jerseyServlet", ServletContainer.class)
-							.setLoadOnStartup(1)
-							.addInitParam("javax.ws.rs.Application", ApplicationConfig.class.getName())
-							.addMapping("/api/*")
-							.setAsyncSupported(true))
-					.setDeploymentName("micro-reference-project.war");
+		DeploymentManager manager = defaultContainer().addDeployment(servletBuilder);
+		manager.deploy();
 
-			DeploymentManager manager = defaultContainer().addDeployment(servletBuilder);
-			manager.deploy();
-
-			path.addPrefixPath("/", manager.start());
-			
-		} catch (ServletException e) {
-			throw new RuntimeException(e);
-		}
-	}
-
-	public static void stopContainer() {
-		server.stop();
+		path.addPrefixPath("/", manager.start());
 	}
 
 }

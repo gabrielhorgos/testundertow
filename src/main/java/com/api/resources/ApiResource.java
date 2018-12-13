@@ -34,13 +34,20 @@ public class ApiResource implements OpenApiInterface {
 	public Response sayHello() {
 		return Response.ok().entity(new Message("Hello there!")).build();
 	}
-
+	
 	@Override
 	@GET
 	@Path("customHello")
-	public void sayCustomHello(@QueryParam("name") String name, @Suspended AsyncResponse asyncResponse) {
-		ExecutorService executorService = appExecutors.getAuthenticationExecutor();
+	public Message sayCustomHello() {
+		return new Message("This is a custom hello message.");
+	}
 
+	@Override
+	@GET
+	@Path("parametrizedHello")
+	public void sayParametrizedHello(@QueryParam("name") String name, @Suspended AsyncResponse asyncResponse) {
+		ExecutorService executorService = appExecutors.getExecutorService();
+		
 		computeAsync(() -> service.buildHelloMessage(name), executorService)
 				.thenApplyAsync(result -> asyncResponse.resume(Response.ok().entity(result).build()), executorService)
 				.exceptionally(error -> asyncResponse.resume(Response.status(400).entity(new Message(error.getMessage())).build()));
