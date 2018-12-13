@@ -38,7 +38,6 @@ public class Server {
 					.setContextPath("/")
 					.addListeners(listener(Listener.class))
 					.setResourceManager(new ClassPathResourceManager(Server.class.getClassLoader()))
-					.addWelcomePage("apidoc/index.html")
 					.addServlets(servlet("jerseyServlet", ServletContainer.class)
 							.setLoadOnStartup(1)
 							.addInitParam("javax.ws.rs.Application", ApplicationConfig.class.getName())
