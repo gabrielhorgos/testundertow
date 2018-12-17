@@ -8,6 +8,8 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
 import javax.ws.rs.container.AsyncResponse;
 import javax.ws.rs.core.Response;
 
@@ -44,4 +46,8 @@ public interface OpenApiInterface extends ApiInterface {
 			+ "hello message.",
 			schema = @Schema(type = "String", example = "John"), required = true) 
 			String name, AsyncResponse asyncResponse);
+
+	@Override
+	Message getMessage();
+
 }

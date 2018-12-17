@@ -52,4 +52,11 @@ public class ApiResource implements OpenApiInterface {
 				.thenApplyAsync(result -> asyncResponse.resume(Response.ok().entity(result).build()), executorService)
 				.exceptionally(error -> asyncResponse.resume(Response.status(400).entity(new Message(error.getMessage())).build()));
 	}
+	
+	@Override
+	@GET
+	@Path("getMessageFromDB")
+	public Message getMessage() {
+		return service.getMessageFromDB();
+	}
 }

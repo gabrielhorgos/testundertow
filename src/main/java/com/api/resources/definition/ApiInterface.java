@@ -15,4 +15,6 @@ public interface ApiInterface {
 	Message sayCustomHello();
 
 	void sayParametrizedHello(String name, AsyncResponse asyncResponse);
+
+	Message getMessage();
 }
